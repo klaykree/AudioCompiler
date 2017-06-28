@@ -1,3 +1,6 @@
 ﻿  main.c
+  OPCode.c
+  Compiler.c
+  Generating Code...
   AudioCompiler.vcxproj -> C:\Users\Kree\Desktop\Modern General\Work\AudioCompiler\Debug\AudioCompiler.exe
   AudioCompiler.vcxproj -> C:\Users\Kree\Desktop\Modern General\Work\AudioCompiler\Debug\AudioCompiler.pdb (Full PDB)
