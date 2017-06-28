@@ -49,3 +49,4 @@ Temporary Items
 *.db
 *.obj
 Debug/vc140.idb
+*.opendb
