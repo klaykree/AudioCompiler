@@ -50,3 +50,4 @@ Temporary Items
 *.obj
 Debug/vc140.idb
 *.opendb
+*.suo
