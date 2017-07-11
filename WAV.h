@@ -84,13 +84,8 @@ void CreateWAV(const char* Name, short* Data, size_t DataSize)
 	WaveData.Channels = Head.Channels;
 	WaveData.Data = malloc(Head.SubChunk2Size);
 
-	for(size_t i = 0 ; i < Head.SubChunk2Size / 2 ; ++i)
+	for(size_t i = 0 ; i < DataSize ; ++i)
 	{
-		//Change the byte order, WAV is little endian for the data section
-		//short LittleEndData = Data[i % DataSize];
-		//short LittleEndDataTemp = LittleEndData;
-		//LittleEndData <<= 8;
-		//LittleEndData ^= (LittleEndDataTemp >> 8) & 0b0000000011111111;
 		WaveData.Data[i] = Data[i];
 	}
 
@@ -110,22 +105,14 @@ void ReadWAV(char* Name, SHORT_ARRAY* Program, short ProgramStop)
 	fread(&Head, sizeof(Head), 1, File);
 
 	Program->Data = malloc(Head.SubChunk2Size);
-	fread(Program->Data, sizeof(short), Head.SubChunk2Size / sizeof(short), File);
+	size_t ProgramSize = Head.SubChunk2Size / sizeof(short);
+	fread(Program->Data, sizeof(short), ProgramSize, File);
 
-	for(size_t i = 0 ; i < Head.SubChunk2Size / sizeof(short) ; ++i)
+	Program->Length = ProgramSize;
+
+	for(int i = 0 ; i < ProgramSize ; ++i)
 	{
-		//Change the byte order, WAV is little endian for the data section
-		short BigEndData = Program->Data[i];
-		short LittleEndDataTemp = BigEndData;
-		BigEndData = (BigEndData << 8);
-		BigEndData ^= (LittleEndDataTemp >> 8) & 0b0000000011111111;
-		Program->Data[i] = BigEndData;
-
-		if(BigEndData == ProgramStop)
-		{
-			Program->Length = i + 1;
-			break;
-		}
+		printf("%i\n", Program->Data[i]);
 	}
 
 	fclose(File);

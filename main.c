@@ -73,7 +73,7 @@ int main(int argc, char** argv)
 		//Argument examples:
 		//Create wav from data: "-wav", wav output name, wav data
 		//Compile exe from wav file: "-compile", exe output name, wav input name
-		//Compile exe from data: "-compile", exe output name, exe data
+		//Compile exe from data: "-compile", exe output name, program data
 		//Create wav and compile exe: "-wavcompile", wav output name, exe output name, wav/exe data
 
 		BOOL WavAndCompile = FALSE;
@@ -113,14 +113,9 @@ int main(int argc, char** argv)
 		}
 	}
 
-	# define Length 4
-	size_t Index = 0;
-	short Data[Length];
-	AddToProgram(Data, &Index, CreateVar);
-	AddToProgram(Data, &Index, 0);
-	AddToProgram(Data, &Index, 10);
-	AddToProgram(Data, &Index, 0);
-	CreateWAV("test.wav", Data, Length);
+	/*SHORT_ARRAY ProgramInstructions;
+	ReadWAV("test.wav", &ProgramInstructions, EndProgram);
+	MakePE(&ProgramInstructions, "lolo.exe");*/
 
 	/*FILE* File;
 	fopen_s(&File, "program.exe", "wb+");
