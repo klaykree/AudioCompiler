@@ -73,7 +73,7 @@ BYTE_ARRAY InstToOPCode(INSTRUCTION_ARRAY* Program, size_t InstIndex)
 	}
 	else if(InstructionType == MulVar)
 	{
-		//Move the left had side variable to EAX
+		//Move the left hand side variable to EAX
 		Instruction.Array[0] = 0x8B; //MOV
 		Instruction.Array[1] = 0x85; //EAX, [EBP] + disp32
 		DWORD RVAOne = GetIdentifierRVA(Program, InstIndex, Inst->Operands[1]);
@@ -95,45 +95,53 @@ BYTE_ARRAY InstToOPCode(INSTRUCTION_ARRAY* Program, size_t InstIndex)
 	{
 		//Dividend / divisor = quotient + remainder
 
+		//Zero the dividend (remainder result)
+		Instruction.Array[0] = 0x33; //XOR
+		Instruction.Array[1] = 0xD2; //EDX, EDX
+
 		//Move dividend to EAX
-		Instruction.Array[0] = 0x8B; //MOV
-		Instruction.Array[1] = 0x85; //[EBP] + disp32, EAX
+		Instruction.Array[2] = 0x8B; //MOV
+		Instruction.Array[3] = 0x85; //EAX, [EBP] + disp32
 		DWORD RVA = GetIdentifierRVA(Program, InstIndex, Inst->Operands[1]);
-		memcpy(Instruction.Array + 2, &RVA, sizeof(DWORD)); //displacement
+		memcpy(Instruction.Array + 4, &RVA, sizeof(DWORD)); //displacement
 
-		//Move immediate value to EBX
-		Instruction.Array[6] = 0xB8 + 0x03; //MOV to EBX
-		memcpy(Instruction.Array + 7, &Inst->Operands[2], sizeof(int)); //immediate value
+		//Move immediate value to ECX
+		Instruction.Array[8] = 0xB8 + 0x01; //MOV to ECX
+		memcpy(Instruction.Array + 9, &Inst->Operands[2], sizeof(int)); //immediate value
 
-		//Divide EAX by EBX
-		Instruction.Array[11] = 0xF7; //IDIV
-		Instruction.Array[12] = 0xFB; //EBX
+		//Divide EAX by ECX
+		Instruction.Array[13] = 0xF7; //IDIV
+		Instruction.Array[14] = 0xF9; //ECX
 		
 		//Move the result from EAX to the variable
-		Instruction.Array[13] = 0x89; //MOV
-		Instruction.Array[14] = 0x85; //[EBP] + disp32, EAX
-		memcpy(Instruction.Array + 15, &RVA, sizeof(DWORD)); //displacement
+		Instruction.Array[15] = 0x89; //MOV
+		Instruction.Array[16] = 0x85; //[EBP] + disp32, EAX
+		memcpy(Instruction.Array + 17, &RVA, sizeof(DWORD)); //displacement
 	}
 	else if(InstructionType == DivVar)
 	{
 		//Dividend / divisor = quotient + remainder
 
+		//Zero the dividend (remainder result)
+		Instruction.Array[0] = 0x33; //XOR
+		Instruction.Array[1] = 0xD2; //EDX, EDX
+
 		//Move dividend to EAX
-		Instruction.Array[0] = 0x8B; //MOV
-		Instruction.Array[1] = 0x85; //[EBP] + disp32, EAX
+		Instruction.Array[2] = 0x8B; //MOV
+		Instruction.Array[3] = 0x85; //[EBP] + disp32, EAX
 		DWORD RVAOne = GetIdentifierRVA(Program, InstIndex, Inst->Operands[1]);
-		memcpy(Instruction.Array + 2, &RVAOne, sizeof(DWORD)); //displacement
+		memcpy(Instruction.Array + 4, &RVAOne, sizeof(DWORD)); //displacement
 
 		//Divide EAX by [EBP] + disp32 (the variable)
-		Instruction.Array[6] = 0xF7; //IDIV
-		Instruction.Array[7] = 0xBD; //[EBP] + disp32
+		Instruction.Array[8] = 0xF7; //IDIV
+		Instruction.Array[9] = 0xBD; //[EBP] + disp32
 		DWORD RVATwo = GetIdentifierRVA(Program, InstIndex, Inst->Operands[2]);
-		memcpy(Instruction.Array + 8, &RVATwo, sizeof(DWORD)); //displacement
+		memcpy(Instruction.Array + 10, &RVATwo, sizeof(DWORD)); //displacement
 
 		//Move the result (quotient) from EAX to the variable
-		Instruction.Array[12] = 0x89; //MOV
-		Instruction.Array[13] = 0x85; //[EBP] + disp32, EAX
-		memcpy(Instruction.Array + 14, &RVAOne, sizeof(DWORD)); //displacement
+		Instruction.Array[14] = 0x89; //MOV
+		Instruction.Array[15] = 0x85; //[EBP] + disp32, EAX
+		memcpy(Instruction.Array + 16, &RVAOne, sizeof(DWORD)); //displacement
 	}
 	else if(InstructionType == CreateVar)
 	{
@@ -370,11 +378,11 @@ int OPCodeSize(short Inst)
 	}
 	if(Inst == DivImm)
 	{
-		return 19;
+		return 21;
 	}
 	if(Inst == DivVar)
 	{
-		return 18;
+		return 20;
 	}
 
 	if(Inst == PrintVar)

@@ -117,61 +117,28 @@ int main(int argc, char** argv)
 	ReadWAV("test.wav", &ProgramInstructions, EndProgram);
 	MakePE(&ProgramInstructions, "lolo.exe");*/
 
-	/*FILE* File;
-	fopen_s(&File, "program.exe", "wb+");
+	/*SHORT_ARRAY PData;
+	PData.Data = malloc(14 * sizeof(short));
+	PData.Length = 0;
+	AddToProgram(PData.Data, &PData.Length, CreateVar);
+	AddToProgram(PData.Data, &PData.Length, 0); //Variable identifier
+	AddToProgram(PData.Data, &PData.Length, 9); //Value, low 2 bytes
+	AddToProgram(PData.Data, &PData.Length, 0); //Value, high 2 bytes
 
-	CreateAndWriteHeaders(File);
+	AddToProgram(PData.Data, &PData.Length, PrintVarLn);
+	AddToProgram(PData.Data, &PData.Length, 0);
 
-	short ProgramData[100];
-	memset(ProgramData, 0, 100 * sizeof(short));
-	size_t ProgramIndex = 0;
+	AddToProgram(PData.Data, &PData.Length, DivImm);
+	AddToProgram(PData.Data, &PData.Length, 0);
+	AddToProgram(PData.Data, &PData.Length, 3);
+	AddToProgram(PData.Data, &PData.Length, 0);
 
-	AddToProgram(ProgramData, &ProgramIndex, CreateVar);
-	AddToProgram(ProgramData, &ProgramIndex, 0); //Variable identifier
-	AddToProgram(ProgramData, &ProgramIndex, 47); //Value, low 2 bytes
-	AddToProgram(ProgramData, &ProgramIndex, 0); //Value, high 2 bytes
-	AddToProgram(ProgramData, &ProgramIndex, CreateVar);
-	AddToProgram(ProgramData, &ProgramIndex, 1);
-	AddToProgram(ProgramData, &ProgramIndex, 2);
-	AddToProgram(ProgramData, &ProgramIndex, 0);
+	AddToProgram(PData.Data, &PData.Length, PrintLn);
+	AddToProgram(PData.Data, &PData.Length, PrintVarLn);
+	AddToProgram(PData.Data, &PData.Length, 0);
 
-	AddToProgram(ProgramData, &ProgramIndex, PrintVarLn);
-	AddToProgram(ProgramData, &ProgramIndex, 0);
-	AddToProgram(ProgramData, &ProgramIndex, PrintVarLn);
-	AddToProgram(ProgramData, &ProgramIndex, 1);
-
-	AddToProgram(ProgramData, &ProgramIndex, AddVar);
-	AddToProgram(ProgramData, &ProgramIndex, 0);
-	AddToProgram(ProgramData, &ProgramIndex, 1);
-
-	AddToProgram(ProgramData, &ProgramIndex, PrintLn);
-	AddToProgram(ProgramData, &ProgramIndex, PrintVarLn);
-	AddToProgram(ProgramData, &ProgramIndex, 0);
-	AddToProgram(ProgramData, &ProgramIndex, PrintVarLn);
-	AddToProgram(ProgramData, &ProgramIndex, 1);
-
-	AddToProgram(ProgramData, &ProgramIndex, EndProgram);
-
-	SHORT_ARRAY PData;
-	//ReadWAV("program.wav", &PData, EndProgram);
-
-	ProgramTextData Program = ParseProgram(ProgramData, ProgramIndex);
-	//ProgramTextData Program = ParseProgram(PData.Data, PData.Length);
-
-	fwrite(Program.Text, sizeof(BYTE), 0x200, File);
-
-	IMPORTS_SECTION ImportsSection = CreateImportsSection();
-	WriteImports(File, &ImportsSection);
-	FreeImportsSection(&ImportsSection);
-
-	WriteZeros(File, 16 * 27 + 4); //Fill the rest of the imports section with zeros
-
-	fwrite(Program.Data, sizeof(BYTE), 0x200, File);
-
-	free(Program.Data);
-	free(Program.Text);
-
-	fclose(File);*/
+	AddToProgram(PData.Data, &PData.Length, EndProgram);
+	MakePE(&PData, "program.exe");*/
 
 #if _DEBUG
 	_CrtDumpMemoryLeaks();
