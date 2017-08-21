@@ -128,6 +128,7 @@ void CreateDataSection(INSTRUCTION_ARRAY* Program, BYTE* Data)
 {
 	size_t DataIndex = 0;
 
+	//Add printf formats to beginning of data section
 	BYTE_ARRAY Format = GetPrintFormats();
 	memcpy(Data + DataIndex, Format.Array, Format.Length);
 	DataIndex += Format.Length;
@@ -137,6 +138,7 @@ void CreateDataSection(INSTRUCTION_ARRAY* Program, BYTE* Data)
 	for(size_t i = 0 ; i < Program->Length ; ++i)
 	{
 		char VariableSize = VariableCreator(Program->Instructions[i].Operands[0]);
+		//Only add variable creating instructions to the data section
 		if(VariableSize != 0)
 		{
 			BYTE_ARRAY OPCode = InstToOPCode(Program, i);
@@ -159,6 +161,7 @@ void CreateTextSection(INSTRUCTION_ARRAY* Program, BYTE* Text)
 
 	for(size_t i = 0 ; i < Program->Length ; ++i)
 	{
+		//Dont add variable creating instructions to text section
 		if(VariableCreator(Program->Instructions[i].Operands[0]) == 0)
 		{
 			BYTE_ARRAY OPCode = InstToOPCode(Program, i);
@@ -195,21 +198,24 @@ DWORD DistToScopeEnd(INSTRUCTION_ARRAY* Program, size_t StartIndex)
 	//StartIndex + 1 to skip the first instruction because it should be the scope starter
 	for(int i = StartIndex + 1 ; i < 0x200 ; ++i)
 	{
-		ByteDistance += OPCodeSize(Program->Instructions[i].Operands[0]);
+		if(VariableCreator(Program->Instructions[i].Operands[0]) == 0) //Ignore variable creators
+		{
+			ByteDistance += OPCodeSize(Program->Instructions[i].Operands[0]);
 
-		//Another scope was entered
-		if(ScopeStarter(Program->Instructions[i].Operands[0]))
-		{
-			++SkipEnders;
-		}
-		else if(ScopeEnder(Program->Instructions[i].Operands[0]))
-		{
-			--SkipEnders;
-		}
+			//Another scope was entered
+			if(ScopeStarter(Program->Instructions[i].Operands[0]))
+			{
+				++SkipEnders;
+			}
+			else if(ScopeEnder(Program->Instructions[i].Operands[0]))
+			{
+				--SkipEnders;
+			}
 
-		if(SkipEnders == -1)
-		{
-			return ByteDistance;
+			if(SkipEnders == -1)
+			{
+				return ByteDistance;
+			}
 		}
 	}
 
@@ -223,22 +229,25 @@ DWORD DistToScopeStart(INSTRUCTION_ARRAY* Program, size_t StartIndex)
 
 	for(int i = StartIndex ; i >= 0 ; --i)
 	{
-		int Size = OPCodeSize(Program->Instructions[i].Operands[0]);
-		ByteDistance += Size;
+		if(VariableCreator(Program->Instructions[i].Operands[0]) == 0) //Ignore variable creators
+		{
+			int Size = OPCodeSize(Program->Instructions[i].Operands[0]);
+			ByteDistance += Size;
 
-		//Another scope was entered
-		if(ScopeEnder(Program->Instructions[i].Operands[0]))
-		{
-			++SkipEnders;
-		}
-		else if(ScopeStarter(Program->Instructions[i].Operands[0]))
-		{
-			--SkipEnders;
-		}
+			//Another scope was entered
+			if(ScopeEnder(Program->Instructions[i].Operands[0]))
+			{
+				++SkipEnders;
+			}
+			else if(ScopeStarter(Program->Instructions[i].Operands[0]))
+			{
+				--SkipEnders;
+			}
 
-		if(SkipEnders == 0)
-		{
-			return ByteDistance - Size;
+			if(SkipEnders == 0)
+			{
+				return ByteDistance - Size;
+			}
 		}
 	}
 	

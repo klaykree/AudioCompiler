@@ -44,6 +44,19 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "simple", "simple.exe", "{99
 		AttachLaunchAction = No
 	EndProjectSection
 EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "test", "..\AudioIDE\AudioIDE\bin\Debug\test.exe", "{8E4F01D0-2AB8-45C1-A3CF-D11769146E11}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Users\Kree\Desktop\Modern General\Work\AudioIDE\AudioIDE\bin\Debug\test.exe
+		RemoteMachine = KREE-LAPTOP
+		StartingDirectory = C:\Users\Kree\Desktop\Modern General\Work\AudioIDE\AudioIDE\bin\Debug
+		Environment = Default
+		LaunchingEngine = 00000000-0000-0000-0000-000000000000
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -72,6 +85,10 @@ Global
 		{9954D133-5EB0-4F4F-8D86-8AAAD504BB31}.Debug|x86.ActiveCfg = Release|x86
 		{9954D133-5EB0-4F4F-8D86-8AAAD504BB31}.Release|x64.ActiveCfg = Release|x86
 		{9954D133-5EB0-4F4F-8D86-8AAAD504BB31}.Release|x86.ActiveCfg = Release|x86
+		{8E4F01D0-2AB8-45C1-A3CF-D11769146E11}.Debug|x64.ActiveCfg = Release|x86
+		{8E4F01D0-2AB8-45C1-A3CF-D11769146E11}.Debug|x86.ActiveCfg = Release|x86
+		{8E4F01D0-2AB8-45C1-A3CF-D11769146E11}.Release|x64.ActiveCfg = Release|x86
+		{8E4F01D0-2AB8-45C1-A3CF-D11769146E11}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

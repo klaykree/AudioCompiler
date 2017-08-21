@@ -117,28 +117,30 @@ int main(int argc, char** argv)
 	ReadWAV("test.wav", &ProgramInstructions, EndProgram);
 	MakePE(&ProgramInstructions, "lolo.exe");*/
 
-	/*SHORT_ARRAY PData;
-	PData.Data = malloc(14 * sizeof(short));
+	SHORT_ARRAY PData;
+	PData.Data = malloc(15 * sizeof(short));
 	PData.Length = 0;
 	AddToProgram(PData.Data, &PData.Length, CreateVar);
 	AddToProgram(PData.Data, &PData.Length, 0); //Variable identifier
-	AddToProgram(PData.Data, &PData.Length, 9); //Value, low 2 bytes
+	AddToProgram(PData.Data, &PData.Length, 1); //Value, low 2 bytes
 	AddToProgram(PData.Data, &PData.Length, 0); //Value, high 2 bytes
 
+	AddToProgram(PData.Data, &PData.Length, ForImm);
+	AddToProgram(PData.Data, &PData.Length, 20);
+	AddToProgram(PData.Data, &PData.Length, 0);
+
+	AddToProgram(PData.Data, &PData.Length, MulImm);
+	AddToProgram(PData.Data, &PData.Length, 0);
+	AddToProgram(PData.Data, &PData.Length, 2);
+	AddToProgram(PData.Data, &PData.Length, 0);
+
 	AddToProgram(PData.Data, &PData.Length, PrintVarLn);
 	AddToProgram(PData.Data, &PData.Length, 0);
 
-	AddToProgram(PData.Data, &PData.Length, DivImm);
-	AddToProgram(PData.Data, &PData.Length, 0);
-	AddToProgram(PData.Data, &PData.Length, 3);
-	AddToProgram(PData.Data, &PData.Length, 0);
-
-	AddToProgram(PData.Data, &PData.Length, PrintLn);
-	AddToProgram(PData.Data, &PData.Length, PrintVarLn);
-	AddToProgram(PData.Data, &PData.Length, 0);
+	AddToProgram(PData.Data, &PData.Length, EndFor);
 
 	AddToProgram(PData.Data, &PData.Length, EndProgram);
-	MakePE(&PData, "program.exe");*/
+	MakePE(&PData, "program.exe");
 
 #if _DEBUG
 	_CrtDumpMemoryLeaks();

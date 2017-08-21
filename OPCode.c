@@ -122,7 +122,7 @@ BYTE_ARRAY InstToOPCode(INSTRUCTION_ARRAY* Program, size_t InstIndex)
 	{
 		//Dividend / divisor = quotient + remainder
 
-		//Zero the dividend (remainder result)
+		//Zero the remainder result
 		Instruction.Array[0] = 0x33; //XOR
 		Instruction.Array[1] = 0xD2; //EDX, EDX
 
