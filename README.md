@@ -3,7 +3,9 @@ A language and compiler designed to be encoded into WAV files. IDE: https://gith
 
 I made this compiler to learn about machine code and to have a language that can be encoded/decoded to and from a sound file,
 inspired to do this due to games and programs being stored on 'datassettes' for some Commodore computers, and the easter eggs hidden
-in sound files of the 2016 Doom game.
+in sound files of the 2016 Doom game.  
+I chose not to use LLVM because the purpose was to learn about compiling to a Portable Executable, not to make a useful language. This
+may make it an [esoteric programming language](https://www.esolangs.org)
 
 #### File types
 Exe and WAV export  
