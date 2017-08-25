@@ -8,8 +8,8 @@ I chose not to use LLVM because the purpose was to learn about compiling to a Po
 This may make it an [esoteric programming language](https://www.esolangs.org)
 
 #### File types
-Exe and WAV export  
-WAV import
+- Exe and WAV export  
+- WAV import
 
 #### Instruction set
 - Add assign (+=)
