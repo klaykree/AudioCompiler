@@ -23,7 +23,7 @@ This may make it an [esoteric programming language](https://www.esolangs.org)
 
 #### Limitations
 - If can only perform equality check, no less than, greater than, or not equals
-- Machine code is not optimised at all
+- Machine code is not optimised, e.g. no variables are cached in registers, always loaded from memory for each instruction
 - Data and text sections of the exe have a maximum of 512 bytes.  
   - Data section: there is a limit of ((512 - 9) / 4) = (125) variables that can be made.  
 Minus 9 bytes because the printf formats reside in the data section, and divide by 4 because all variables are 32 bits
