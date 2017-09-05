@@ -1,5 +1,5 @@
 # AudioCompiler
-A language and compiler designed to be encoded into WAV files. IDE here: https://github.com/klaykree/AudioIDE
+A language and compiler (generates a Windows portable executable) designed to be encoded into WAV files. IDE here: https://github.com/klaykree/AudioIDE
 
 I made this compiler to learn about machine code and to have a language that can be encoded/decoded to and from a sound file,
 inspired to do this due to games and programs being stored on 'datassettes' for some Commodore computers, and the easter eggs hidden
